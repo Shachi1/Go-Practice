@@ -28,12 +28,20 @@ func contact(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "Email me at: <a href=\"mailtoabc@gmail.com\">abc@gmail.com</a>")
 }
 
+func notFound(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html")
+	w.WriteHeader(404)
+	fmt.Fprint(w, "<p>please email us if you keep being sent to the invalid page</p>")
+}
+
 func main() {
 
 	r := mux.NewRouter()
 	// r.HandleFunc("/", handlerFunc)
+	r.NotFoundHandler = http.HandlerFunc(notFound)
 	r.HandleFunc("/", home)
 	r.HandleFunc("/contact", contact)
+	r.HandleFunc("/notFound", notFound)
 	http.ListenAndServe(":3000", r)
 	// mux := &http.ServeMux{}
 	// mux.HandleFunc("/", handlerFunc)
