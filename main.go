@@ -19,6 +19,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 	}	
 }
 
+
 func contact(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 	if err := contactTemplate.Execute(w, nil); err != nil {
@@ -29,12 +30,19 @@ func contact(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	var err error
-	homeTemplate, err = template.ParseFiles("views/home.gohtml")
+	homeTemplate, err = template.ParseFiles(
+		"views/home.gohtml",
+		"views/layout/footer.gohtml",
+
+	)
 	if err != nil {
 		panic(err)
 	}
 	
-	contactTemplate, err = template.ParseFiles("views/contact.gohtml")
+	contactTemplate, err = template.ParseFiles(
+		"views/contact.gohtml",
+		"views/layout/footer.gohtml",
+	)
 	if err != nil {
 		panic(err)
 	}
