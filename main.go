@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	// "fmt"
 	"html/template"
 	"net/http"
 
@@ -9,6 +9,7 @@ import (
 )
 
 var homeTemplate *template.Template
+var contactTemplate *template.Template
 
 
 func home(w http.ResponseWriter, r *http.Request) {
@@ -20,7 +21,9 @@ func home(w http.ResponseWriter, r *http.Request) {
 
 func contact(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
-	fmt.Fprint(w, "Email me at: <a href=\"mailtoabc@gmail.com\">abc@gmail.com</a>")
+	if err := contactTemplate.Execute(w, nil); err != nil {
+		panic(err)
+	}
 }
 
 
@@ -30,7 +33,12 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-		
+	
+	contactTemplate, err = template.ParseFiles("views/contact.gohtml")
+	if err != nil {
+		panic(err)
+	}
+
 	r := mux.NewRouter()
 	r.HandleFunc("/", home)
 	r.HandleFunc("/contact", contact)
