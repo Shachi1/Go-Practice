@@ -38,7 +38,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	
+
 	contactTemplate, err = template.ParseFiles(
 		"views/contact.gohtml",
 		"views/layout/footer.gohtml",
